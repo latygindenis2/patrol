@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -405,7 +407,7 @@ class PatrolTester {
     Duration? settleTimeout,
     bool enablePatrolLog = true,
   }) {
-    if (!kIsWeb) {
+    if (!kIsWeb && Platform.isIOS) {
       // Fix for enterText() not working in release mode on real iOS devices.
       // See https://github.com/flutter/flutter/pull/89703
       // Also a fix for enterText() not being able to interact with the same
@@ -429,7 +431,7 @@ class PatrolTester {
           );
           await tester.tap(resolvedFinder.first);
           await tester.enterText(resolvedFinder.first, text);
-          if (!kIsWeb) {
+          if (!kIsWeb && Platform.isIOS) {
             // When registering `testTextInput`, we have to unregister it
             tester.testTextInput.unregister();
           }
